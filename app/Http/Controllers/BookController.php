@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Exports\BooksExport;
 use App\Models\Book;
 use App\Models\Bookshelf;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Excel;
-use Storage;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookController extends Controller
 {
@@ -46,14 +46,12 @@ class BookController extends Controller
             'year' => 'required|integer|max:2077',
             'publisher' => 'required|max:255',
             'city' => 'required|max:50',
-            'cover' => 'required|max:255',
+            'cover' => 'nullable',
             'bookshelf_id' => 'required',
         ]);
         if ($request->hasFile('cover')) { 
-            $path = $request->file('cover')->storeAs( 
-                'public/cover_buku',  
-                'cover_buku_'.time() . '.' . $request->file('cover')->extension() 
-            ); 
+            $path = $request->file('cover')->store('cover_buku', 'public'); 
+            
             $validated['cover'] = basename($path); 
         }
         Book::create($validated);
@@ -68,20 +66,12 @@ class BookController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     // public function edit(string $id)
     // {
-    //     //
     // }
 
     public function edit(string $id){
@@ -106,7 +96,7 @@ class BookController extends Controller
             'year' => 'required|integer|max:2077',
             'publisher' => 'required|max:255',
             'city' => 'required|max:50',
-            'cover' => 'required',
+            'cover' => 'nullable',
             'bookshelf_id' => 'required',
         ]);
         if ($request->hasFile('cover')) { 

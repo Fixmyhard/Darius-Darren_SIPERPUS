@@ -24,7 +24,7 @@ return new class extends Migration
         });
 
         Schema::table('books', function(Blueprint $table){
-            $table->foreign('bookshelf_id')->references('id')->on('bookshelfs');
+            $table->foreign('bookshelf_id')->references('id')->on('bookshelves');
         });
     }
 
