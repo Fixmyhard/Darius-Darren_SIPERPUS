@@ -20,12 +20,12 @@ class BookshelfSeeder extends Seeder
         ]);
 
         Book::create([
-            'title' => 'Filosofi Gajah Terbang',
-            'author' => 'GTA',
-            'year' => '2024',
-            'publisher' => 'GAT',
-            'city' => 'Cianjur',
-            'cover' => 'placeholder.com/512px.png',
+            'title' => 'Shawn Garcia',
+            'author' => 'Shawn Garcia',
+            'year' => '2022',
+            'publisher' => 'Shawn Garcia',
+            'city' => 'Palu',
+            'cover' => '214639-20231011-cover_31.jpg-642x1024.webp',
             'bookshelf_id'=> '1',
         ]);
     }

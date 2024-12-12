@@ -20,9 +20,9 @@ class UserSeeder extends Seeder
             'email' => 'pustakawan@unsur.ac.id',
         ]) -> assignRole('pustakawan');
 
-        User::factory()->create([
-            'name' => 'mahasiswa',
-            'email' => 'mahasiswa@unsur.ac.id',
-        ]) -> assignRole('mahasiswa');
+        // User::factory()->create([
+        //     'name' => 'mahasiswa',
+        //     'email' => 'mahasiswa@unsur.ac.id',
+        // ]) -> assignRole('mahasiswa');
     }
 }

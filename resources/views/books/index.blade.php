@@ -66,7 +66,7 @@
                                 <x-secondary-button x-on:click="$dispatch('close')">
                                     {{ __('Cancel') }}
                                 </x-secondary-button>
-                                <x-danger-button class="ml-3">
+                                <x-danger-button class="ml-3" style="background-color: blue">
                                     {{ __('Delete!!!') }}
                                 </x-danger-button>
                             </div>
