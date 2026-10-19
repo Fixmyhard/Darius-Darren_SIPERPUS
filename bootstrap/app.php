@@ -4,17 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
-// 1. Paksa jalur bootstrap/cache ke /tmp jika berjalan di Vercel
-if (env('VERCEL_JOB_ID')) {
-    $cachePath = '/tmp/bootstrap/cache';
-    if (!is_dir($cachePath)) {
-        mkdir($cachePath, 0755, true);
-    }
-    // Set environment variable agar dikenali sistem
-    putenv("APP_BASE_PATH=" . realpath(__DIR__ . '/../'));
-}
-
-// 2. Inisialisasi Aplikasi Laravel
+// 1. Inisialisasi Aplikasi Laravel
 $app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -28,10 +18,16 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     })->create();
 
-// 3. Pindahkan folder cache secara permanen ke /tmp khusus di server Vercel
+// 2. Trik Utama: Tukar objek PackageManifest bawaan dengan Versi Vercel kita
 if (env('VERCEL_JOB_ID')) {
+    $app->instance(\Illuminate\Foundation\PackageManifest::class, new \App\Providers\VercelPackageManifest(
+        new \Illuminate\Filesystem\Filesystem(),
+        $app->basePath(),
+        '/tmp/bootstrap/cache/packages.php'
+    ));
+    
+    // Set storage path ke /tmp
     $app->useStoragePath('/tmp/storage');
-    $app->instance('path.bootstrap', '/tmp/bootstrap/cache');
 }
 
 return $app;
